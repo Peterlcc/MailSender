@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author lcc
@@ -35,8 +34,12 @@ public class MailController {
      */
     @PostMapping("/mail/send")
     @ResponseBody
-    public MailVo sendMail(MailVo mailVo, MultipartFile[] files) {
-        mailVo.setMultipartFiles(files);
-        return mailService.sendMail(mailVo);//发送邮件和附件
+    public MailVo sendMail(MailVo mailVo, MultipartFile[] files,boolean html) {
+        if(files==null||files.length==0){
+            mailVo.setMultipartFiles(null);
+        }else {
+            mailVo.setMultipartFiles(files);
+        }
+        return mailService.sendMail(mailVo,html);//发送邮件和附件
     }
 }
